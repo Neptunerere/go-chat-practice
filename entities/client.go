@@ -2,7 +2,7 @@ package entities
 
 import "database/sql"
 
-type Employee struct {
+type Client struct {
 	Idx      uint64       `gorm:"column:idx"`
 	Code     string       `gorm:"column:code"`
 	IsAdmin  sql.NullBool `gorm:"column:is_admin"`
@@ -10,6 +10,6 @@ type Employee struct {
 	Password string       `gorm:"column:password"`
 }
 
-func (e *Employee) TableName() string {
-	return "employee"
+func (e *Client) TableName() string {
+	return "client"
 }

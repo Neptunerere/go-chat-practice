@@ -2,27 +2,78 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Univer Server</title>
+    <title>친구 리스트</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        #friend-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        .friend-card {
+            width: 150px;
+            margin: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .friend-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-<script>
-    var ws = new WebSocket("ws://localhost:8448/ws");
-    //Triggered when the connection is opened
-    ws.onopen = function(evt) {
-        console.log("Connection open...");
-        ws.send("Hello WebSockets!");
-    };
-    //Triggered when a message is received
-    ws.onmessage = function(evt) {
-        console.log("Received Message: " + evt.data);
-    };
-    //Triggered when the connection is closed
-    ws.onclose = function(evt) {
-        console.log("Connection closed.");
-    };
 
+<div id="friend-list"></div>
+
+<script>
+    // 랜덤으로 프로필 이미지 URL 생성
+    function getRandomImage() {
+        const randomImageNumber = Math.floor(Math.random() * 10) + 1;
+        return `https://placekitten.com/100/100?image=${randomImageNumber}`;
+    }
+
+    // 친구 리스트 생성
+    function generateFriendList() {
+        const friendListContainer = document.getElementById('friend-list');
+
+        for (let i = 1; i <= 5; i++) {
+            const friendCard = document.createElement('div');
+            friendCard.classList.add('friend-card');
+
+            const profileImage = document.createElement('img');
+            profileImage.src = getRandomImage();
+            profileImage.alt = `프로필 이미지 ${i}`;
+
+            const friendName = document.createElement('p');
+            friendName.textContent = `친구 ${i}`;
+
+            friendCard.appendChild(profileImage);
+            friendCard.appendChild(friendName);
+
+            friendListContainer.appendChild(friendCard);
+        }
+    }
+
+    // 페이지 로드 시 친구 리스트 생성
+    window.onload = generateFriendList;
 </script>
+
 </body>
 </html>

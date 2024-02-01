@@ -39,8 +39,9 @@ func setupRouter() *gin.Engine {
 	// gin init
 	r := gin.New()
 
-	r.Use(gin.Logger())   // Logger set
-	r.Use(gin.Recovery()) // middleware Panic 500 Error set
+	r.Use(gin.Logger())                // Logger set
+	r.Use(gin.Recovery())              // middleware Panic 500 Error set
+	r.LoadHTMLGlob("templates/*.html") // templates file set
 
 	api := r.Group("/chat")
 
@@ -49,6 +50,17 @@ func setupRouter() *gin.Engine {
 	v1.Use(func(c *gin.Context) {
 		c.Set("Version", "v1")
 		c.Next()
+	})
+
+	// root in index.html run
+	r.GET("/", func(c *gin.Context) {
+		c.HTML(
+			200,
+			"index.html",
+			gin.H{
+				"title": "Chat Server Running...",
+			},
+		)
 	})
 
 	return r
